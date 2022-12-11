@@ -13,9 +13,9 @@ a proper way to handle activities like creation and use of virtual
 environments, ... here, the basic / classic way using a command prompt will be
 explained.
 
-1. walk into your project's parent folder
+1. walk into your project's parent folder (the place, you have your projects)
    ```bash
-   cd <PROJECT-FOLDER>
+   cd <PROJECT-FOLDER-PARENT>
    ```
 
 2. clone this project into a new local project folder. optionally, you might
