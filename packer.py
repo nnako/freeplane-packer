@@ -44,7 +44,7 @@ __version__ = "0.1*"
 # logging
 logging.basicConfig(
         format='%(name)s - %(levelname)-8s - %(message)s',
-        level=logging.DEBUG,
+        level=logging.INFO,
         )
 
 
