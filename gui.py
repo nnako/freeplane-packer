@@ -114,6 +114,11 @@ def parseOptArgs():
             help='container file path. this file will contain the mindmap and further files.',
             gooey_options=dict(wildcard="MMX files (.mmx)|*.mmx")
             )
+    pack.add_argument(
+            '--log-level',
+            default='info',
+            help='log messages will be displayed only if severity level is matching or above. options are "debug", "info", "warning" or "error"',
+            )
 
 
 
@@ -174,4 +179,5 @@ if __name__ == "__main__":
         app.pack(
                 mmpath=arguments.mmpath,
                 mmxpath=arguments.mmxpath,
+                log_level=arguments.log_level,
                 )

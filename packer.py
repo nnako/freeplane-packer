@@ -129,6 +129,7 @@ class Packer(object):
     def pack(self,
             mmpath="",
             mmxpath="",
+            log_level='info',
             ):
 
 
@@ -149,6 +150,7 @@ class Packer(object):
             # write into object
             self._mmpath = args.mmpath
             self._mmxpath = args.mmxpath
+            self._log_level = args.log_level
 
         # module was called from function
         else:
@@ -156,6 +158,26 @@ class Packer(object):
             # read from function arguments and write into object
             self._mmpath = mmpath
             self._mmxpath = mmxpath
+            self._log_level = log_level
+
+
+
+
+        #
+        # adjust logging level to user's wishes
+        #
+
+        if self._log_level.lower() == "debug":
+            logging.getLogger().setLevel(logging.DEBUG)
+        elif self._log_level.lower() == "info":
+            logging.getLogger().setLevel(logging.INFO)
+        elif self._log_level.lower() == "warning":
+            logging.getLogger().setLevel(logging.WARNING)
+        elif self._log_level.lower() == "error":
+            logging.getLogger().setLevel(logging.ERROR)
+        else:
+            logging.getLogger().setLevel(logging.WARNING)
+            logging.warning("log log level mismatch in user arguments. setting to WARNING.")
 
 
 
@@ -171,6 +193,7 @@ class Packer(object):
 
         # debug
         logging.debug(f'mindmap "{self._mmpath}" will be exported into a container')
+
 
 
 
@@ -205,7 +228,13 @@ class Packer(object):
         # take each freeplane node within the mindmap
         for fpnode in lstFpnodes:
 
-            # check if link is present
+
+
+
+            #
+            # IF link is present in node
+            #
+
             _path = fpnode.hyperlink
             if _path:
 
@@ -410,6 +439,11 @@ def parseOptArgs(parser):
             '--mmxpath',
             default='',
             help='container file path. this file will contain the mindmap and further files.',
+            )
+    parser.add_argument(
+            '--log-level',
+            default='info',
+            help='log messages will be displayed only if severity level is matching or above. options are "debug", "info", "warning" or "error"',
             )
 
 
