@@ -79,17 +79,21 @@ python3 packer.py pack <PATH-TO-YOUR-MINDMAP> [ <PATH-TO-MMX-FILE> ]
 
 finished
 
-- rudimentary graphical user interface to select source / target mindmaps
-- identification of all used file paths / links within the mindmap
-- localization of identified files within the file systems
-- copy / paste of these linked files into a temporary folder ("files" subfolder)
-- modification / adjustment of file paths within the mindmap (now relative)
-- copy / paste modified source mindmap into the temporary folder
-- zip file creation for the temporary folder
+```diff
++ rudimentary graphical user interface to select source / target mindmaps
++ identification of all used file paths / links within the mindmap
++ localization of identified files within the file systems
++ copy / paste of these linked files into a temporary folder ("files" subfolder)
++ modification / adjustment of file paths within the mindmap (now relative)
++ copy / paste modified source mindmap into the temporary folder
++ zip file creation for the temporary folder
+```
 
 todo
 
-- recursive handling of links to other mindmaps
+```diff
+! recursive handling of links within linked mindmaps
+```
 
 ## test
 
