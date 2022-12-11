@@ -252,9 +252,6 @@ class Packer(object):
         # build container
         #
 
-        _mmpath = pathlib.Path(self._mmpath)
-        _mmxpath = pathlib.Path(self._mmxpath)
-
         # create container folder structure
         _containerfolder = self._mmxpath + "_"
         pathlib.Path(_containerfolder).mkdir(parents=True, exist_ok=True)
@@ -360,7 +357,7 @@ class Packer(object):
 
 
         #
-        # save mindmap file into container folder
+        # save modified mindmap file into container folder
         #
 
         mindmap.save(
@@ -369,6 +366,24 @@ class Packer(object):
                     os.path.basename(self._mmpath),
                     )
                 )
+
+
+
+
+        #
+        # build ZIP container
+        #
+
+        shutil.make_archive(self._mmxpath, 'zip', _containerfolder)
+
+
+
+
+        #
+        # remove container folder
+        #
+
+        shutil.rmtree(_containerfolder)
 
 
 
