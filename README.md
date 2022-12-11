@@ -13,17 +13,31 @@ a proper way to handle activities like creation and use of virtual
 environments, ... here, the basic / classic way using a command prompt will be
 explained.
 
-1. clone this project into a new local project folder
+1. walk into your project's parent folder
    ```bash
-   git clone ...
+   cd <PROJECT-FOLDER>
    ```
 
-2. create a Python virtual environment locally (make sure Python v3.x is being used, here)
+2. clone this project into a new local project folder. optionally, you might
+   specify a project folder, otherwise it will be named according to the
+   repository's name:
    ```bash
+   git clone https://github.com/nnako/freeplane-packer.git [ <PROJECT-FOLDER-PATH> ]
+   ```
+
+3. create a Python virtual environment locally (make sure Python > v3.4 is being used, here)
+   ```bash
+   # cd into project folder
+   cd <PROJECT-FOLDER-PATH>
+   
+   # install virtual environment within project folder
    python -m venv
+   
+   # activate virtuel environment (e.g. on Windows os)
+   venv\Scripts\activate
    ```
 
-3. install all necessary packages using pip
+4. install all necessary packages using pip
    ```bash
    # MIT
    pip install gooey
@@ -44,6 +58,13 @@ start the tool either by using the built-in (simple) graphical user interface
 wher you can click with your mouse to set the needed paths:
 
 ```bash
+# walk into your project folder
+cd <PROJECT-FOLDER-PATH>
+
+# activate your virtual environment (make installed modules available)
+venv\Scripts\activate
+
+# start application's GUI to insert start parameters
 python3 gui.py
 ```
 
@@ -51,8 +72,24 @@ or use command line interface to start the CLI function. if you leave the MMX
 path blank, there will be a MMX file created next to the source mindmap file:
 
 ```bash
-python3 packer.py pack PATH-TO-YOUR-MINDMAP.mm [ PATH-TO-MMX.mmx ]
+python3 packer.py pack <PATH-TO-YOUR-MINDMAP> [ <PATH-TO-MMX-FILE> ]
 ```
+
+## features
+
+finished
+
+- rudimentary graphical user interface to select source / target mindmaps
+- identification of all used file paths / links within the mindmap
+- localization of identified files within the file systems
+- copy / paste of these linked files into a temporary folder ("files" subfolder)
+- modification / adjustment of file paths within the mindmap (now relative)
+- copy / paste modified source mindmap into the temporary folder
+- zip file creation for the temporary folder
+
+todo
+
+- recursive handling of links to other mindmaps
 
 ## test
 
