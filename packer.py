@@ -238,6 +238,10 @@ class Packer(object):
             _path = fpnode.hyperlink
             if _path:
 
+                # initialize details list if not already done
+                if _path not in dicHyperlinks.keys():
+                    dicHyperlinks[_path] = []
+
 
 
 
@@ -272,7 +276,64 @@ class Packer(object):
                         _path = _path[:_pos]
 
                     # create new dictionary entry
-                    dicHyperlinks[_path] = {'nodeid': fpnode.id}
+                    dicHyperlinks[_path].append(
+                            {
+                            'nodeid': fpnode.id,
+                            'type': "link",
+                            }
+                            )
+
+
+
+
+        #
+        # get list of image paths
+        #
+
+        # walk through entire mindmap and find paths to images within the local
+        # file system. web links will be prevailed.
+
+        # take each freeplane node within the mindmap
+        for fpnode in lstFpnodes:
+
+
+
+
+            #
+            # IF in-line image is present in node
+            #
+
+            _imagepath = fpnode.imagepath
+            if _imagepath:
+
+                # initialize details list if not already done
+                if _imagepath not in dicHyperlinks.keys():
+                    dicHyperlinks[_imagepath] = []
+
+
+
+
+                #
+                # get image size
+                #
+
+                _imagesize = fpnode.imagesize
+
+
+
+
+                #
+                # store image details
+                #
+
+                # create new dictionary entry
+                dicHyperlinks[_imagepath].append(
+                        {
+                        'nodeid': fpnode.id,
+                        'type': "image",
+                        'size': _imagesize,
+                        }
+                        )
 
 
 
@@ -291,7 +352,7 @@ class Packer(object):
         os.chdir(pathlib.Path(self._mmpath).parent)
 
         lstAbsPaths = []
-        for _path, _info in dicHyperlinks.items():
+        for _path, _infolist in dicHyperlinks.items():
 
 
 
@@ -314,7 +375,8 @@ class Packer(object):
             #
 
             if not os.path.isfile(_path):
-                logging.warning(f'file "{_path}" was NOT found as specified in node "{_info["nodeid"]}"')
+                for _info in _infolist:
+                    logging.warning(f'file "{_path}" was NOT found as specified in node "{_info["nodeid"]}"')
             else:
                 logging.info(f'file "{_path}" was found')
 
@@ -373,14 +435,53 @@ class Packer(object):
 
 
                 #
-                # link node to new file location
+                # walk through infolist
                 #
 
-                # find mindmap node
-                _node = mindmap.find_nodes(id=_info['nodeid'])[0]
+                for _info in _infolist:
 
-                # replace hyperlink path in mindmap
-                _node.hyperlink = 'files/' + _basename
+
+
+
+                    #
+                    # evaluate link type
+                    #
+
+                    if _info['type'] == "image":
+
+
+
+
+                        #
+                        # link node's image section with new file location
+                        #
+
+                        # find mindmap node
+                        _node = mindmap.find_nodes(id=_info['nodeid'])[0]
+
+                        # replace image element in mindmap
+                        _node.set_image(
+                                link='files/' + _basename,
+                                size=_imagesize,
+                                )
+
+
+
+
+                    else:
+
+
+
+
+                        #
+                        # link node to new file location
+                        #
+
+                        # find mindmap node
+                        _node = mindmap.find_nodes(id=_info['nodeid'])[0]
+
+                        # replace hyperlink path in mindmap
+                        _node.hyperlink = 'files/' + _basename
 
 
 
@@ -443,7 +544,8 @@ def parseOptArgs(parser):
     parser.add_argument(
             '--log-level',
             default='info',
-            help='log messages will be displayed only if severity level is matching or above. options are "debug", "info", "warning" or "error"',
+            help=   'log messages will be displayed only if severity level is matching or above.' + \
+                    ' options are "debug", "info", "warning" or "error"',
             )
 
 
