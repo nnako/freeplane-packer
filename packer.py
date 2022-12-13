@@ -50,6 +50,14 @@ logging.basicConfig(
 
 
 
+# check dependencies
+if float(freeplane.__version__[:3]) < 0.7:
+    print('[ ERROR  : please upgrade package "freeplane-io" to at least "v0.7" ]')
+    sys.exit(1)
+
+
+
+
 # packer class
 class Packer(object):
 
