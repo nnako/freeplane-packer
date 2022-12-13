@@ -512,7 +512,11 @@ class Packer(object):
         # build ZIP container
         #
 
+        # create container
         shutil.make_archive(self._mmxpath, 'zip', _containerfolder)
+
+        # rename container
+        shutil.move(self._mmxpath + ".zip", self._mmxpath)
 
 
 
