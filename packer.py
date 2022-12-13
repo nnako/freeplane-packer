@@ -469,7 +469,7 @@ class Packer(object):
 
                         # replace image element in mindmap
                         _node.set_image(
-                                link='files/' + _basename,
+                                link='./files/' + _basename,
                                 size=_imagesize,
                                 )
 
