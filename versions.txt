@@ -1,6 +1,13 @@
+v1.0 / v0.3.0
+
+  - NEW: recognize and adapt image paths within HTML
+         content of Freeplane nodes
+
+
 v1.0 / v0.2.0
 
-  - NEW: recognize in-line images and treat them as done with file links
+  - NEW: recognize in-line images and treat them as
+         done with file links
 
 
 v1.0 / v0.1.0
