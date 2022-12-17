@@ -613,6 +613,27 @@ class Packer(object):
 
 
 
+                    elif _info['type'] == "html_image":
+
+
+
+
+                        #
+                        # link node's html image with new file location
+                        #
+
+                        # pick specific image node
+                        _img = _info['element']
+
+                        # replace image path in node
+                        _img.set(
+                                "src",
+                                './files/' + _basename,
+                                )
+
+
+
+
                     else:
 
 
