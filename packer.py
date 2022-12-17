@@ -243,12 +243,9 @@ class Packer(object):
             # IF link is present in node
             #
 
-            _path = fpnode.hyperlink
+            # get sanitized path string (no backslash)
+            _path = fpnode.hyperlink.replace("\\", "/")
             if _path:
-
-                # initialize details list if not already done
-                if _path not in dicHyperlinks.keys():
-                    dicHyperlinks[_path] = []
 
 
 
