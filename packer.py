@@ -254,6 +254,18 @@ class Packer(object):
                 # sanitize file link
                 #
 
+                # at this position, possible formats within the link attribute
+                # might be one of the following. when a mm file, there can also
+                # be appended a hash symbol followed by an NODE ID string
+                #
+                # - file:/C:/some-path/filename.ext (Windows)
+                # - file://some-absolute-path/filename.ext (Linux)
+                # - C:/some-absolute-path/filename.ext (Windows)
+                # - /some-absolute-path/filename.ext (Linux)
+                # - some-relative-path/filename.ext
+                # - filename.ext
+
+                # remove leading protocol token
                 _token = 'file:/'
                 if _path.lower().startswith(_token):
 
