@@ -286,6 +286,7 @@ class Packer(object):
                 _match = re.search(r'^([A-z]{2,}:/)', _path)
                 if not _match \
                         and not _path.startswith('#'):
+                #
 
                     # remove hyperlink to node in external mindmap
                     _pos = _path.rfind('#')
