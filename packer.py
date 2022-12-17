@@ -354,7 +354,13 @@ class Packer(object):
             _imagepath = fpnode.imagepath
             if _imagepath:
 
+
+
+
+                #
                 # initialize details list if not already done
+                #
+
                 if _imagepath not in dicHyperlinks.keys():
                     dicHyperlinks[_imagepath] = []
 
