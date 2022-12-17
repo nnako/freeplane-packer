@@ -393,6 +393,97 @@ class Packer(object):
 
 
         #
+        # get list of html image sources
+        #
+
+        # walk through entire mindmap and find paths to images within the local
+        # file system. web links will be prevailed.
+
+        # take each freeplane node within the mindmap
+        for fpnode in lstFpnodes:
+
+
+
+
+            #
+            # collect all html image nodes present
+            #
+
+            lstImageElements = []
+
+            # check for richcontent element
+            richnode = fpnode._node.find('richcontent')
+            if richnode is not None:
+
+                # check for html element
+                htmlnode = richnode.find('html')
+                if htmlnode is not None:
+
+                    # check for html body element
+                    htmlbody = htmlnode.find('body')
+                    if htmlbody is not None:
+
+                        # check for image elements directly below body tag
+                        lstImageElements = []
+                        lstImageElements.extend(htmlbody.findall('img'))
+
+                        # and now below paragraph elements
+                        for _element in htmlbody.findall('p'):
+                            lstImageElements.extend(_element.findall('img'))
+
+
+
+
+            #
+            # insert paths into dictionary
+            #
+
+            for _element in lstImageElements:
+
+                _imagepath = _element.get("src")
+
+
+
+
+                #
+                # skip http images
+                #
+
+                if _imagepath.startswith("http:/") \
+                        or _imagepath.startswith("https:/"):
+                    logging.debug(f'web-linked images like "{_imagepath}" will not be changed.')
+                    continue
+
+
+
+
+                #
+                # initialize details list if not already done
+                #
+
+                if _imagepath not in dicHyperlinks.keys():
+                    dicHyperlinks[_imagepath] = []
+
+
+
+
+                #
+                # store image details
+                #
+
+                # create new dictionary entry
+                dicHyperlinks[_imagepath].append(
+                        {
+                        'nodeid': fpnode.id,
+                        'type': "html_image",
+                        'element': _element,
+                        }
+                        )
+
+
+
+
+        #
         # build container
         #
 
