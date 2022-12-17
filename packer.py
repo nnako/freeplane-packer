@@ -283,29 +283,59 @@ class Packer(object):
                 #  - no local hyperlinks to other nodes
                 #  - no external hyperlinks to mindmap nodes -> just the mindmap files
 
+                # look for other protocol tokens (they start with at least 2
+                # characters and then a colon and a slash)
+
                 _match = re.search(r'^([A-z]{2,}:/)', _path)
-                if not _match \
-                        and not _path.startswith('#'):
+                if _match:
+                    logging.info(f'file "{_path}" uses a protocol token "{_match[1]}" which is not evaluated, here.')
+                    continue
+
+                if _path.startswith('#'):
+                    logging.debug(f'file "{_path}" uses a local node link. will be disregarded, here.')
+                    continue
+
+
+
+
+                #
+                # remove possible appended freeplane specifics
                 #
 
-                    # remove hyperlink to node in external mindmap
-                    _pos = _path.rfind('#')
-                    if _pos > -1:
-                        _path = _path[:_pos]
+                # remove hyperlink to node in external mindmap
+                _pos = _path.rfind('#')
+                if _pos > -1:
+                    _path = _path[:_pos]
 
-                    # create new dictionary entry
-                    dicHyperlinks[_path].append(
-                            {
-                            'nodeid': fpnode.id,
-                            'type': "link",
-                            }
-                            )
+
+
+
+                #
+                # initialize details list if not already done
+                #
+
+                if _path not in dicHyperlinks.keys():
+                    dicHyperlinks[_path] = []
+
+
+
+
+                #
+                # create new dictionary entry
+                #
+
+                dicHyperlinks[_path].append(
+                        {
+                        'nodeid': fpnode.id,
+                        'type': "file",
+                        }
+                        )
 
 
 
 
         #
-        # get list of image paths
+        # get list of in-line image paths
         #
 
         # walk through entire mindmap and find paths to images within the local
